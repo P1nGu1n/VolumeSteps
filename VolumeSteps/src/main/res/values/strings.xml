@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">VolumeSteps+</string>
+    <string name="xposed_description">Allows you to increase the amount of volume steps for media.</string>
+</resources>
