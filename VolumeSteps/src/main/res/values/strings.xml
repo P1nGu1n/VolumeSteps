@@ -1,4 +1,34 @@
 <resources>
     <string name="app_name">VolumeSteps+</string>
     <string name="xposed_description">Allows you to increase the amount of volume steps for media.</string>
+    <string name="default_reset">Default</string>
+
+    <!-- Volume step options -->
+    <string name="volume_steps_category">Volume steps</string>
+
+    <string name="stream_music_title">Music</string>
+    <string name="stream_music_dialog">Music Volume Steps</string>
+
+    <!-- Other settings -->
+    <string name="pref_other">Other</string>
+
+    <string name="pref_safe_headset_volume_title">Safe headset volume warning</string>
+    <string name="pref_safe_headset_volume_on">The safe headset volume warning won\'t be shown</string>
+    <string name="pref_safe_headset_volume_off">The safe headset volume warning will be shown</string>
+
+    <string name="pref_launcher_title">Show launcher icon</string>
+    <string name="pref_launcher_on">Access settings through my launcher</string>
+    <string name="pref_launcher_off">Access settings through Xposed Installer</string>
+
+    <!-- About section -->
+    <string name="pref_about">About</string>
+    <string name="pref_about_title" translatable="false">VolumeSteps+ v%1$s</string>
+    <string name="pref_about_summary">VolumeSteps+ is released under the GPLv3 license.</string>
+
+    <string name="pref_donate_title">Donate</string>
+    <string name="pref_donate_summary">Support me, buy me a beer using PayPal. Donations are highly appreciated.</string>
+
+    <string name="pref_support_title">Support</string>
+    <string name="pref_support_summary">Navigate to the XDA-thread, please read the OP first if you\'re facing problems.</string>
+
 </resources>

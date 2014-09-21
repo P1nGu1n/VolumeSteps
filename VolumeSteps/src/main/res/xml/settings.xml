@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/volume_steps_category">
+        <com.p1ngu1n.volumesteps.VolumeStepsPreference
+            android:key="pref_stream_music"
+            android:title="@string/stream_music_title"
+            android:dialogTitle="@string/stream_music_dialog"
+            android:defaultValue="15" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_other">
+        <CheckBoxPreference
+            android:key="pref_safe_headset_volume_disabled"
+            android:title="@string/pref_safe_headset_volume_title"
+            android:summaryOff="@string/pref_safe_headset_volume_off"
+            android:summaryOn="@string/pref_safe_headset_volume_on"
+            android:defaultValue="false" />
+
+        <CheckBoxPreference
+            android:key="pref_launcher"
+            android:title="@string/pref_launcher_title"
+            android:summaryOff="@string/pref_launcher_off"
+            android:summaryOn="@string/pref_launcher_on"
+            android:defaultValue="true" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_about">
+        <Preference
+            android:key="pref_about"
+            android:title="@string/app_name"
+            android:summary="@string/pref_about_summary" />
+
+        <Preference
+            android:key="pref_donate"
+            android:title="@string/pref_donate_title"
+            android:summary="@string/pref_donate_summary">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=ATAND4ZD4HZ62"/>
+        </Preference>
+
+        <Preference
+            android:key="pref_support"
+            android:title="@string/pref_support_title"
+            android:summary="@string/pref_support_summary">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="http://forum.xda-developers.com/xposed/modules/" />
+        </Preference>
+    </PreferenceCategory>
+</PreferenceScreen>
