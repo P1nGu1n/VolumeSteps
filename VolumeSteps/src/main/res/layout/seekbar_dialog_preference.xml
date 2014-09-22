@@ -4,22 +4,17 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingBottom="8dip"
-    android:paddingLeft="16dip"
-    android:paddingRight="16dip"
-    android:paddingTop="8dip" >
+    android:padding="16dip" >
 
     <TextView
         android:id="@+id/value_selected"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:paddingTop="12dip" />
+        android:layout_gravity="center" />
 
     <SeekBar
         android:id="@+id/preference_seekbar"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="12dip" />
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

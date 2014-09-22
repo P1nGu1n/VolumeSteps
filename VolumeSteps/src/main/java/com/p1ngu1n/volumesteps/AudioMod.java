@@ -19,6 +19,7 @@
 package com.p1ngu1n.volumesteps;
 
 import android.content.res.XResources;
+import android.media.AudioManager;
 
 import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.XC_MethodHook;
@@ -35,36 +36,36 @@ import de.robv.android.xposed.XposedHelpers;
  * Source code of the config file which values are replaced:            https://github.com/android/platform_frameworks_base/blob/master/core/res/res/values/config.xml
  */
 public class AudioMod implements IXposedHookZygoteInit {
-
-    /** Class name of AudioService */
-    private static final String AUDIO_SERVICE_CLASS = "android.media.AudioService";
-    /** Index of the Music Stream in MAX_STREAM_VOLUME */
-    private static final int STREAM_INDEX_MUSIC = 3;
-    /** Tag used for logging */
+    private static final String AUDIO_SERVICE_CLASSNAME = "android.media.AudioService";
     private static final String LOG_TAG = "VolumeSteps+: ";
-
-    /** Number of volume steps, default is 15 */
-    private static int STREAM_MUSIC_STEPS = 15;
-    /** Wheter to show debug information in the Xposed Log */
     private static final boolean DEBUGGING = false;
+
+    private static final int STREAM_ALARM_DEFAULT = 7;
+    private static final int STREAM_MUSIC_DEFAULT = 15;
+    private static final int STREAM_RING_DEFAULT = 7;
+    private static final int STREAM_VOICECALL_DEFAULT = 5;
+
 
     @Override
     public void initZygote(StartupParam startupParam) throws Throwable {
         // Load the user's preferences
-        XSharedPreferences prefs = new XSharedPreferences(BuildConfig.PACKAGE_NAME);
-        STREAM_MUSIC_STEPS = prefs.getInt("pref_stream_music", 15);
+        final XSharedPreferences prefs = new XSharedPreferences(BuildConfig.PACKAGE_NAME);
 
-
-        final Class<?> audioServiceClass = XposedHelpers.findClass(AUDIO_SERVICE_CLASS, null);
+        final Class<?> audioServiceClass = XposedHelpers.findClass(AUDIO_SERVICE_CLASSNAME, null);
         // Hook the constructor of AudioService, change the volumes before initialization
         XposedBridge.hookAllConstructors(audioServiceClass, new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                 // Retrieve array containing the maximum stream volumes
                 int[] maxStreamVolume = (int[]) XposedHelpers.getStaticObjectField(audioServiceClass, "MAX_STREAM_VOLUME");
-                // Set the volume at the index of the Music stream
-                maxStreamVolume[STREAM_INDEX_MUSIC] = STREAM_MUSIC_STEPS;
-                if (DEBUGGING) XposedBridge.log(LOG_TAG + "Volume steps for music stream set to " + STREAM_MUSIC_STEPS);
+
+                // Get the max volumes and set them at the index of the right stream
+                maxStreamVolume[AudioManager.STREAM_ALARM] = prefs.getInt("pref_stream_alarm", STREAM_ALARM_DEFAULT);
+                maxStreamVolume[AudioManager.STREAM_MUSIC] = prefs.getInt("pref_stream_music", STREAM_MUSIC_DEFAULT);
+                maxStreamVolume[AudioManager.STREAM_RING] = prefs.getInt("pref_stream_ring", STREAM_RING_DEFAULT);
+                maxStreamVolume[AudioManager.STREAM_VOICE_CALL] = prefs.getInt("pref_stream_voicecall", STREAM_VOICECALL_DEFAULT);
+
+                if (DEBUGGING) XposedBridge.log(LOG_TAG + "Max Stream Volumes set");
             }
         });
 
@@ -77,11 +78,12 @@ public class AudioMod implements IXposedHookZygoteInit {
             XResources.setSystemWideReplacement("android", "bool", "config_safe_media_volume_enabled", false);
             if (DEBUGGING) XposedBridge.log(LOG_TAG + "Safe Headset Volume is disabled");
         } else {
-            // Calculate the new headset volume warning to comply with the new maximum volume
-            int safeHeadsetVolume = (int) Math.round(STREAM_MUSIC_STEPS * (2.0 / 3.0));
+            // Calculate the new headset volume warning to comply with the new maximum music volume
+            int maxMusicSteps = prefs.getInt("pref_stream_music", 15);
+            int safeHeadsetVolume = (int) Math.round(maxMusicSteps * (2.0 / 3.0));
+
             XResources.setSystemWideReplacement("android", "integer", "config_safe_media_volume_index", safeHeadsetVolume);
             if (DEBUGGING) XposedBridge.log(LOG_TAG + "Safe Headset Volume set to " + safeHeadsetVolume);
         }
     }
 }
-

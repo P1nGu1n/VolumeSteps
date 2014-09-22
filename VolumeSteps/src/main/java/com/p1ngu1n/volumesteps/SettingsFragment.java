@@ -19,17 +19,23 @@
 package com.p1ngu1n.volumesteps;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.view.View;
+import android.widget.CheckBox;
 
 /**
  * Fragment container the preferences.
  */
 public class SettingsFragment extends PreferenceFragment {
+//    private boolean rebootMessageShown = false;
 
     @SuppressWarnings("deprecation")
     @Override
@@ -39,12 +45,14 @@ public class SettingsFragment extends PreferenceFragment {
         addPreferencesFromResource(R.xml.settings);
 
         // Set the version number in the about screen
-        Preference aboutPreference = findPreference("pref_about");
-        aboutPreference.setTitle(getString(R.string.pref_about_title, BuildConfig.VERSION_NAME));
-
+        findPreference("pref_about").setTitle(getString(R.string.pref_about_title, BuildConfig.VERSION_NAME));
         // Set change listener to the 'show in launcher' preference
-        Preference launcherPref = findPreference("pref_launcher");
-        launcherPref.setOnPreferenceChangeListener(changeListenerLauncher);
+        findPreference("pref_launcher").setOnPreferenceChangeListener(changeListenerLauncher);
+
+        SharedPreferences sharedPreferences = getPreferenceScreen().getSharedPreferences();
+        if (sharedPreferences.getBoolean("pref_show_reboot_dialog", true)) {
+            createRebootDialog().show();
+        }
     }
 
     /**
@@ -52,13 +60,37 @@ public class SettingsFragment extends PreferenceFragment {
      */
     private final Preference.OnPreferenceChangeListener changeListenerLauncher = new Preference.OnPreferenceChangeListener() {
         public boolean onPreferenceChange(Preference preference, Object newValue) {
-            int state = ((Boolean) newValue ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED : PackageManager.COMPONENT_ENABLED_STATE_DISABLED);
+            int componentState = ((Boolean) newValue ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED : PackageManager.COMPONENT_ENABLED_STATE_DISABLED);
 
             Activity activity = getActivity();
             ComponentName alias = new ComponentName(activity, "com.p1ngu1n.volumesteps.SettingsActivity-Alias");
-            PackageManager p = activity.getPackageManager();
-            p.setComponentEnabledSetting(alias, state, PackageManager.DONT_KILL_APP);
+            activity.getPackageManager().setComponentEnabledSetting(alias, componentState, PackageManager.DONT_KILL_APP);
             return true;
         }
     };
+
+    private AlertDialog createRebootDialog() {
+        final Activity activity = getActivity();
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(R.string.app_name);
+        //builder.setIcon(android.R.drawable.ic_dialog_info);
+
+        // build view from layout
+        View dialogView = View.inflate(activity, R.layout.reboot_dialog, null);
+        final CheckBox neverShowAgainCheckBox = (CheckBox) dialogView.findViewById(R.id.reboot_dialog_checkbox);
+        builder.setView(dialogView);
+
+        builder.setPositiveButton(activity.getString(R.string.ok_understand), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // set preference to never show reboot dialog again if checkbox is checked
+                if (neverShowAgainCheckBox.isChecked()) {
+                    SharedPreferences sharedPreferences = getPreferenceScreen().getSharedPreferences();
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putBoolean("pref_show_reboot_dialog", false);
+                    editor.apply();
+                }
+            }
+        });
+        return builder.create();
+    }
 }

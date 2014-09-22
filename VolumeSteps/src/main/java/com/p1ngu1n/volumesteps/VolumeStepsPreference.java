@@ -34,7 +34,7 @@ import java.util.Arrays;
  * A preference for setting the maximum volume steps. You can choose from 5, 7, 15, 30, 45, 60, 75 and 90.
  */
 public class VolumeStepsPreference extends DialogPreference implements SeekBar.OnSeekBarChangeListener {
-    /** The volume steps to be used */
+    /** The volume steps to be chosen from */
     private static final Integer[] volumeSteps = {5, 7, 15, 30, 45, 60, 75, 90};
     private int defaultValue;
     private int mValue;
@@ -97,6 +97,7 @@ public class VolumeStepsPreference extends DialogPreference implements SeekBar.O
         setSummary(getSummary());
         persistInt(value);
         notifyChanged();
+        callChangeListener(value);
     }
 
     @Override
@@ -116,6 +117,7 @@ public class VolumeStepsPreference extends DialogPreference implements SeekBar.O
         SeekBar seekBar = (SeekBar) onCreateDialogView.findViewById(R.id.preference_seekbar);
         seekBar.setOnSeekBarChangeListener(this);
         seekBar.setMax(volumeSteps.length - 1);
+        // Translate the value to index to set on the seekbar
         int index = Arrays.asList(volumeSteps).indexOf(mValue);
         seekBar.setProgress(index);
 
@@ -135,6 +137,7 @@ public class VolumeStepsPreference extends DialogPreference implements SeekBar.O
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         if (fromUser) {
+            // Translate the index to the value
             mValue = volumeSteps[progress];
             viewCurrentValue.setText(getSummary());
         }

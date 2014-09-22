@@ -3,10 +3,29 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory android:title="@string/volume_steps_category">
         <com.p1ngu1n.volumesteps.VolumeStepsPreference
+            android:key="pref_stream_alarm"
+            android:title="@string/stream_alarm_title"
+            android:dialogTitle="@string/stream_alarm_dialog"
+            android:defaultValue="7" />
+
+        <com.p1ngu1n.volumesteps.VolumeStepsPreference
             android:key="pref_stream_music"
             android:title="@string/stream_music_title"
             android:dialogTitle="@string/stream_music_dialog"
             android:defaultValue="15" />
+
+        <com.p1ngu1n.volumesteps.VolumeStepsPreference
+            android:key="pref_stream_ring"
+            android:title="@string/stream_ring_title"
+            android:dialogTitle="@string/stream_ring_dialog"
+            android:defaultValue="7" />
+
+        <com.p1ngu1n.volumesteps.VolumeStepsPreference
+            android:key="pref_stream_voicecall"
+            android:title="@string/stream_voicecall_title"
+            android:dialogTitle="@string/stream_voicecall_dialog"
+            android:defaultValue="5" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_other">
@@ -23,6 +42,7 @@
             android:summaryOff="@string/pref_launcher_off"
             android:summaryOn="@string/pref_launcher_on"
             android:defaultValue="true" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_about">
@@ -48,5 +68,6 @@
                 android:action="android.intent.action.VIEW"
                 android:data="http://forum.xda-developers.com/xposed/modules/" />
         </Preference>
+
     </PreferenceCategory>
 </PreferenceScreen>
