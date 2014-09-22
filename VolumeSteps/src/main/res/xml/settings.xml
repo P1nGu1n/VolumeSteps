@@ -66,7 +66,7 @@
             android:summary="@string/pref_support_summary">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="http://forum.xda-developers.com/xposed/modules/" />
+                android:data="http://forum.xda-developers.com/xposed/modules/mod-volumesteps-t2884962" />
         </Preference>
 
     </PreferenceCategory>
