@@ -66,6 +66,12 @@ public class VolumeStepsPreference extends DialogPreference implements SeekBar.O
     }
 
     @Override
+    public void setDefaultValue(Object newDefaultValue) {
+        super.setDefaultValue(newDefaultValue);
+        defaultValue = (Integer) newDefaultValue;
+    }
+
+    @Override
     protected void onSetInitialValue(boolean restoreValue, Object defaultValue) {
         setValue(restoreValue ? getPersistedInt(mValue) : (Integer) defaultValue);
     }
@@ -93,11 +99,14 @@ public class VolumeStepsPreference extends DialogPreference implements SeekBar.O
      * @param value The value to be set
      */
     public void setValue(int value) {
-        mValue = value;
+        updateValue(value);
         setSummary(getSummary());
         persistInt(value);
         notifyChanged();
-        callChangeListener(value);
+    }
+
+    private void updateValue(int value) {
+        mValue = value;
     }
 
     @Override
@@ -109,7 +118,7 @@ public class VolumeStepsPreference extends DialogPreference implements SeekBar.O
     @Override
     protected View onCreateDialogView() {
         View onCreateDialogView = super.onCreateDialogView();
-        mValue = getPersistedInt(defaultValue);
+        updateValue(getPersistedInt(defaultValue));
 
         viewCurrentValue = (TextView) onCreateDialogView.findViewById(R.id.value_selected);
         viewCurrentValue.setText(getSummary());
@@ -125,20 +134,26 @@ public class VolumeStepsPreference extends DialogPreference implements SeekBar.O
     }
 
     @Override
+    protected void onDialogClosed(boolean positiveResult) {
+        super.onDialogClosed(positiveResult);
+        if (callChangeListener(mValue)) {
+            setValue(mValue);
+        }
+    }
+
+    @Override
     public void onClick(DialogInterface dialog, int which) {
         super.onClick(dialog, which);
-
         if (which == DialogInterface.BUTTON_NEGATIVE) {
-            mValue = defaultValue;
+            updateValue(defaultValue);
         }
-        setValue(mValue);
     }
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         if (fromUser) {
             // Translate the index to the value
-            mValue = volumeSteps[progress];
+            updateValue(volumeSteps[progress]);
             viewCurrentValue.setText(getSummary());
         }
     }
