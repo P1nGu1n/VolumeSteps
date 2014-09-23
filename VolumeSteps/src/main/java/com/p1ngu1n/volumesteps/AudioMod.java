@@ -20,6 +20,7 @@ package com.p1ngu1n.volumesteps;
 
 import android.content.res.XResources;
 import android.media.AudioManager;
+import android.os.Build;
 
 import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.XC_MethodHook;
@@ -50,14 +51,20 @@ public class AudioMod implements IXposedHookZygoteInit {
     public void initZygote(StartupParam startupParam) throws Throwable {
         // Load the user's preferences
         final XSharedPreferences prefs = new XSharedPreferences(BuildConfig.PACKAGE_NAME);
+        if (DEBUGGING) XposedBridge.log(LOG_TAG + Build.VERSION.RELEASE + "(SDK " + Build.VERSION.SDK_INT + ")");
 
         final Class<?> audioServiceClass = XposedHelpers.findClass(AUDIO_SERVICE_CLASSNAME, null);
-        // Hook the constructor of AudioService, change the volumes before initialization
-        XposedBridge.hookAllConstructors(audioServiceClass, new XC_MethodHook() {
+        // Hook createAudioSystemThread, this method is called very early in the constructor of AudioService
+        XposedHelpers.findAndHookMethod(audioServiceClass, "createAudioSystemThread", new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                // Retrieve array containing the maximum stream volumes
-                int[] maxStreamVolume = (int[]) XposedHelpers.getStaticObjectField(audioServiceClass, "MAX_STREAM_VOLUME");
+                // Retrieve array containing the maximum stream volumes, depends on Android version
+                int[] maxStreamVolume;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    maxStreamVolume = (int[]) XposedHelpers.getStaticObjectField(audioServiceClass, "MAX_STREAM_VOLUME");
+                } else {
+                    maxStreamVolume = (int[]) XposedHelpers.getObjectField(param.thisObject, "MAX_STREAM_VOLUME");
+                }
 
                 // Get the max volumes and set them at the index of the right stream
                 maxStreamVolume[AudioManager.STREAM_ALARM] = prefs.getInt("pref_stream_alarm", STREAM_ALARM_DEFAULT);
