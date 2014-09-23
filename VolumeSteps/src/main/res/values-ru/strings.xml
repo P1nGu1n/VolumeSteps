@@ -1,0 +1,49 @@
+<resources>
+    <string name="app_name">VolumeSteps+</string>
+    <string name="xposed_description">Управляйте громкостью точнее</string>
+
+    <string name="default_reset">По умолчанию</string>
+
+    <string name="ok_understand">Ок, я понял</string>
+    <string name="never_show_again">Больше не показывать это сообщение</string>
+    <string name="reboot_message">Позле изменения параметров необходима перезагрузка. Наслаждайтесь VolumeSteps+!</string>
+
+    <!-- Volume step options -->
+    <string name="volume_steps_category">Шаги громкости</string>
+
+    <string name="stream_alarm_title">Будильник</string>
+    <string name="stream_alarm_dialog">Шаги громкости будильника</string>
+
+    <string name="stream_music_title">Музыка</string>
+    <string name="stream_music_dialog">Шаги громкости музыки</string>
+
+    <string name="stream_ring_title">Звонок</string>
+    <string name="stream_ring_dialog">Шаги громкости звонка</string>
+
+    <string name="stream_voicecall_title">Голосовой вызов</string>
+    <string name="stream_voicecall_dialog">Шаги громкости голоса</string>
+
+    <!-- Other settings -->
+    <string name="pref_other">Прочее</string>
+
+    <string name="pref_safe_headset_volume_title">Предупреждение о высокой громкости</string>
+    <string name="pref_safe_headset_volume_on">Предупреждение о громкости будет скрыто</string>
+    <string name="pref_safe_headset_volume_off">Предупреждение о громкости будет показано</string>
+
+    <string name="pref_launcher_title">Показывать иконку в лончере</string>
+    <string name="pref_launcher_on">Доступ к настройкам через лончер</string>
+    <string name="pref_launcher_off">Доступ к настройкам через Xposed Installer</string>
+
+    <!-- About section -->
+    <string name="pref_about">О программе</string>
+
+    <string name="pref_about_title" translatable="false">VolumeSteps+ v%1$s</string>
+    <string name="pref_about_summary">VolumeSteps+ выпущен под лицензией GPLv3.</string>
+
+    <string name="pref_donate_title">Пожертвование</string>
+    <string name="pref_donate_summary">Поддержите меня, купите мне пива через PayPal. Я высоко ценю Ваши пожертвования.</string>
+
+    <string name="pref_support_title">Поддержка</string>
+    <string name="pref_support_summary">Открыть тему на форуме XDA. Прежде чем писать о проблеме, убедитесь, что перезагрузили устройство. Пожалуйста, прочитайте шапку темы, если вы все еще испытываете проблемы.</string>
+
+</resources>
