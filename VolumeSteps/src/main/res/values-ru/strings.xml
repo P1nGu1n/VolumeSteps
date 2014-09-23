@@ -1,49 +1,49 @@
 <resources>
     <string name="app_name">VolumeSteps+</string>
-    <string name="xposed_description">Control your volume more precisely</string>
+    <string name="xposed_description">Управляйте громкостью точнее</string>
 
-    <string name="default_reset">Default</string>
+    <string name="default_reset">По умолчанию</string>
 
-    <string name="ok_understand">OK, I understand</string>
-    <string name="never_show_again">Never show this message again</string>
-    <string name="reboot_message">After you made your changes, a reboot is required in order for the changes to take effect. Enjoy VolumeSteps+!</string>
+    <string name="ok_understand">Ок, я понял</string>
+    <string name="never_show_again">Больше не показывать это сообщение</string>
+    <string name="reboot_message">Позле изменения параметров необходима перезагрузка. Наслаждайтесь VolumeSteps+!</string>
 
     <!-- Volume step options -->
-    <string name="volume_steps_category">Volume steps</string>
+    <string name="volume_steps_category">Шаги громкости</string>
 
-    <string name="stream_alarm_title">Alarm</string>
-    <string name="stream_alarm_dialog">Alarm Volume Steps</string>
+    <string name="stream_alarm_title">Будильник</string>
+    <string name="stream_alarm_dialog">Шаги громкости будильника</string>
 
-    <string name="stream_music_title">Music</string>
-    <string name="stream_music_dialog">Music Volume Steps</string>
+    <string name="stream_music_title">Музыка</string>
+    <string name="stream_music_dialog">Шаги громкости музыки</string>
 
-    <string name="stream_ring_title">Ringer</string>
-    <string name="stream_ring_dialog">Ringer Volume Steps</string>
+    <string name="stream_ring_title">Звонок</string>
+    <string name="stream_ring_dialog">Шаги громкости звонка</string>
 
-    <string name="stream_voicecall_title">Voice Call</string>
-    <string name="stream_voicecall_dialog">Voice Call Volume Steps</string>
+    <string name="stream_voicecall_title">Голосовой вызов</string>
+    <string name="stream_voicecall_dialog">Шаги громкости голоса</string>
 
     <!-- Other settings -->
-    <string name="pref_other">Other</string>
+    <string name="pref_other">Прочее</string>
 
-    <string name="pref_safe_headset_volume_title">Safe headset volume warning</string>
-    <string name="pref_safe_headset_volume_on">The safe headset volume warning won\'t be shown</string>
-    <string name="pref_safe_headset_volume_off">The safe headset volume warning will be shown</string>
+    <string name="pref_safe_headset_volume_title">Предупреждение о высокой громкости</string>
+    <string name="pref_safe_headset_volume_on">Предупреждение о громкости будет скрыто</string>
+    <string name="pref_safe_headset_volume_off">Предупреждение о громкости будет показано</string>
 
-    <string name="pref_launcher_title">Show launcher icon</string>
-    <string name="pref_launcher_on">Access settings through my launcher</string>
-    <string name="pref_launcher_off">Access settings through Xposed Installer</string>
+    <string name="pref_launcher_title">Показывать иконку в лончере</string>
+    <string name="pref_launcher_on">Доступ к настройкам через лончер</string>
+    <string name="pref_launcher_off">Доступ к настройкам через Xposed Installer</string>
 
     <!-- About section -->
-    <string name="pref_about">About</string>
+    <string name="pref_about">О программе</string>
 
     <string name="pref_about_title" translatable="false">VolumeSteps+ v%1$s</string>
-    <string name="pref_about_summary">VolumeSteps+ is released under the GPLv3 license.</string>
+    <string name="pref_about_summary">VolumeSteps+ выпущен под лицензией GPLv3.</string>
 
-    <string name="pref_donate_title">Donate</string>
-    <string name="pref_donate_summary">Support me, buy me a beer using PayPal. Donations are highly appreciated.</string>
+    <string name="pref_donate_title">Пожертвование</string>
+    <string name="pref_donate_summary">Поддержите меня, купите мне пива через PayPal. Я высоко ценю Ваши пожертвования.</string>
 
-    <string name="pref_support_title">Support</string>
-    <string name="pref_support_summary">Navigate to the XDA-thread. Make sure you\'ve rebooted first, this is required for the changes to take affect. Please read the OP if you\'re still facing problems.</string>
+    <string name="pref_support_title">Поддержка</string>
+    <string name="pref_support_summary">Открыть тему на форуме XDA. Прежде чем писать о проблеме, убедитесь, что перезагрузили устройство. Пожалуйста, прочитайте шапку темы, если вы все еще испытываете проблемы.</string>
 
 </resources>
