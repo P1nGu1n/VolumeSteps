@@ -35,7 +35,7 @@ import android.widget.CheckBox;
  * Fragment container the preferences.
  */
 public class SettingsFragment extends PreferenceFragment {
-//    private boolean rebootMessageShown = false;
+    private static boolean rebootMessageShown = false;
 
     @SuppressWarnings("deprecation")
     @Override
@@ -50,7 +50,8 @@ public class SettingsFragment extends PreferenceFragment {
         findPreference("pref_launcher").setOnPreferenceChangeListener(changeListenerLauncher);
 
         SharedPreferences sharedPreferences = getPreferenceScreen().getSharedPreferences();
-        if (sharedPreferences.getBoolean("pref_show_reboot_dialog", true)) {
+        if (!rebootMessageShown && sharedPreferences.getBoolean("pref_show_reboot_dialog", true)) {
+            rebootMessageShown = true;
             createRebootDialog().show();
         }
     }
