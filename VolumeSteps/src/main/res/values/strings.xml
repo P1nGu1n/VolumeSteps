@@ -17,6 +17,9 @@
     <string name="stream_music_title">Music</string>
     <string name="stream_music_dialog">Music Volume Steps</string>
 
+    <string name="stream_notification_title">Notification</string>
+    <string name="stream_notification_dialog">Notification Volume Steps</string>
+
     <string name="stream_ring_title">Ringer</string>
     <string name="stream_ring_dialog">Ringer Volume Steps</string>
 

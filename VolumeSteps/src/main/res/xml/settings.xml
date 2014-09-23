@@ -15,6 +15,12 @@
             android:defaultValue="15" />
 
         <com.p1ngu1n.volumesteps.VolumeStepsPreference
+            android:key="pref_stream_notification"
+            android:title="@string/stream_notification_title"
+            android:dialogTitle="@string/stream_notification_dialog"
+            android:defaultValue="7" />
+
+        <com.p1ngu1n.volumesteps.VolumeStepsPreference
             android:key="pref_stream_ring"
             android:title="@string/stream_ring_title"
             android:dialogTitle="@string/stream_ring_dialog"
