@@ -22,6 +22,8 @@ import android.content.res.XResources;
 import android.media.AudioManager;
 import android.os.Build;
 
+import java.util.Arrays;
+
 import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XSharedPreferences;
@@ -43,6 +45,7 @@ public class AudioMod implements IXposedHookZygoteInit {
 
     private static final int STREAM_ALARM_DEFAULT = 7;
     private static final int STREAM_MUSIC_DEFAULT = 15;
+    private static final int STREAM_NOTIFICATION_DEFAULT = 7;
     private static final int STREAM_RING_DEFAULT = 7;
     private static final int STREAM_VOICECALL_DEFAULT = 5;
 
@@ -66,13 +69,15 @@ public class AudioMod implements IXposedHookZygoteInit {
                     maxStreamVolume = (int[]) XposedHelpers.getObjectField(param.thisObject, "MAX_STREAM_VOLUME");
                 }
 
+                if (DEBUGGING) XposedBridge.log(LOG_TAG + "STREAM_MAX_VOLUME:before" + Arrays.toString(maxStreamVolume));
+
                 // Get the max volumes and set them at the index of the right stream
                 maxStreamVolume[AudioManager.STREAM_ALARM] = prefs.getInt("pref_stream_alarm", STREAM_ALARM_DEFAULT);
                 maxStreamVolume[AudioManager.STREAM_MUSIC] = prefs.getInt("pref_stream_music", STREAM_MUSIC_DEFAULT);
                 maxStreamVolume[AudioManager.STREAM_RING] = prefs.getInt("pref_stream_ring", STREAM_RING_DEFAULT);
                 maxStreamVolume[AudioManager.STREAM_VOICE_CALL] = prefs.getInt("pref_stream_voicecall", STREAM_VOICECALL_DEFAULT);
 
-                if (DEBUGGING) XposedBridge.log(LOG_TAG + "Max Stream Volumes set");
+                if (DEBUGGING) XposedBridge.log(LOG_TAG + "STREAM_MAX_VOLUME:after" + Arrays.toString(maxStreamVolume));
             }
         });
 
