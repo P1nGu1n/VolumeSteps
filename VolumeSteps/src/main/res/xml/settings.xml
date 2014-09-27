@@ -59,6 +59,13 @@
             android:defaultValue="false" />
 
         <CheckBoxPreference
+            android:key="pref_volume_keys_control_music"
+            android:title="@string/pref_volume_keys_control_music_title"
+            android:summaryOff="@string/pref_volume_keys_control_music_off"
+            android:summaryOn="@string/pref_volume_keys_control_music_on"
+            android:defaultValue="false" />
+
+        <CheckBoxPreference
             android:key="pref_launcher"
             android:title="@string/pref_launcher_title"
             android:summaryOff="@string/pref_launcher_off"

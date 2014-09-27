@@ -25,7 +25,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.view.View;
@@ -48,6 +50,19 @@ public class SettingsFragment extends PreferenceFragment {
         findPreference("pref_about").setTitle(getString(R.string.pref_about_title, BuildConfig.VERSION_NAME));
         // Set change listener to the 'show in launcher' preference
         findPreference("pref_launcher").setOnPreferenceChangeListener(changeListenerLauncher);
+
+        // Disabling safe headset volume requires Android 4.2
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            CheckBoxPreference safeHeadsetVolumePreference = (CheckBoxPreference) findPreference("pref_safe_headset_volume_disabled");
+            safeHeadsetVolumePreference.setEnabled(false);
+            safeHeadsetVolumePreference.setSummaryOff(getString(R.string.require_android_Version, "Android 4.2"));
+        }
+        // Volume keys control music requires Android 4.1
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+            CheckBoxPreference volumeKeysControlMusic = (CheckBoxPreference) findPreference("pref_volume_keys_control_music");
+            volumeKeysControlMusic.setEnabled(false);
+            volumeKeysControlMusic.setSummaryOff(getString(R.string.require_android_Version, "Android 4.1"));
+        }
 
         SharedPreferences sharedPreferences = getPreferenceScreen().getSharedPreferences();
         if (!rebootMessageShown && sharedPreferences.getBoolean("pref_show_reboot_dialog", true)) {

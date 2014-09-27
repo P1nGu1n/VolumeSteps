@@ -40,6 +40,7 @@ import de.robv.android.xposed.XposedHelpers;
  */
 public class AudioMod implements IXposedHookZygoteInit {
     private static final String AUDIO_SERVICE_CLASSNAME = "android.media.AudioService";
+    private static final String AUDIO_SYSTEM_CLASSNAME = "android.media.AudioSystem";
     private static final String LOG_TAG = "VolumeSteps+: ";
     private static final boolean DEBUGGING = false;
 
@@ -57,6 +58,8 @@ public class AudioMod implements IXposedHookZygoteInit {
         if (DEBUGGING) XposedBridge.log(LOG_TAG + Build.VERSION.RELEASE + "(SDK " + Build.VERSION.SDK_INT + ")");
 
         final Class<?> audioServiceClass = XposedHelpers.findClass(AUDIO_SERVICE_CLASSNAME, null);
+        final Class<?> audioSystemClass = XposedHelpers.findClass(AUDIO_SYSTEM_CLASSNAME, null);
+
         // Hook createAudioSystemThread, this method is called very early in the constructor of AudioService
         XposedHelpers.findAndHookMethod(audioServiceClass, "createAudioSystemThread", new XC_MethodHook() {
             @Override
@@ -98,5 +101,44 @@ public class AudioMod implements IXposedHookZygoteInit {
             XResources.setSystemWideReplacement("android", "integer", "config_safe_media_volume_index", safeHeadsetVolume);
             if (DEBUGGING) XposedBridge.log(LOG_TAG + "Safe Headset Volume set to " + safeHeadsetVolume);
         }
+
+
+        // Whether the volume keys control the music stream or the ringer volume
+        boolean volumeKeysControlMusic = prefs.getBoolean("pref_volume_keys_control_music", false);
+        if (DEBUGGING) XposedBridge.log(LOG_TAG + "Volume keys control " + (volumeKeysControlMusic ? "music" : "ringer"));
+
+        if (volumeKeysControlMusic)
+        XposedHelpers.findAndHookMethod(audioServiceClass, "getActiveStreamType", int.class, new XC_MethodHook() {
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                boolean voiceCapable = XposedHelpers.getBooleanField(param.thisObject, "mVoiceCapable");
+                if (!voiceCapable) return;
+
+                boolean isInCommunication = (Boolean) XposedHelpers.callMethod(param.thisObject, "isInCommunication");
+                if (isInCommunication) return;
+
+                int suggestedStreamType = (Integer) param.args[0];
+                if (suggestedStreamType != AudioManager.USE_DEFAULT_STREAM_TYPE) return;
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    boolean isAfMusicActiveRecently = (Boolean) XposedHelpers.callMethod(param.thisObject, "isAfMusicActiveRecently", 5000);
+                    if (isAfMusicActiveRecently) return;
+                } else {
+                    boolean musicStreamActive = (Boolean) XposedHelpers.callStaticMethod(audioSystemClass, "isStreamActive", AudioManager.STREAM_MUSIC, 5000);
+                    if (musicStreamActive) return;
+                }
+
+                // 4.4 and higher call checkUpdateRemoteStateIfActive at the MediaFocusControl class instead of AudioService
+                Object objContainingRemoteStreamMethod = param.thisObject;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    objContainingRemoteStreamMethod = XposedHelpers.getObjectField(param.thisObject, "mMediaFocusControl");
+                }
+                boolean activeRemoteStream = (Boolean) XposedHelpers.callMethod(objContainingRemoteStreamMethod, "checkUpdateRemoteStateIfActive", AudioManager.STREAM_MUSIC);
+                if (activeRemoteStream) return;
+
+                param.setResult(AudioManager.STREAM_MUSIC);
+                if (DEBUGGING) XposedBridge.log(LOG_TAG + "Forced volume keys control music");
+            }
+        });
     }
 }

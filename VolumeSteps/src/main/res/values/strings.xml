@@ -5,9 +5,13 @@
     <string name="app_name" translatable="false">VolumeSteps+</string>
     <string name="xposed_description">Control your volume more precisely</string>
 
+    <string name="require_android_Version">Requires %1$s or higher</string>
+
+    <!-- Volume steps dialog -->
     <string name="default_reset">Default</string>
     <string name="steps_format">%1$s steps</string>
 
+    <!-- Reboot dialog -->
     <string name="ok_understand">OK, I understand</string>
     <string name="never_show_again">Never show this message again</string>
     <string name="reboot_message">After you made your changes, a reboot is required in order for the changes to take effect. Enjoy VolumeSteps+!</string>
@@ -36,6 +40,10 @@
     <string name="pref_safe_headset_volume_title">Safe headset volume warning</string>
     <string name="pref_safe_headset_volume_on">The safe headset volume warning won\'t be shown</string>
     <string name="pref_safe_headset_volume_off">The safe headset volume warning will be shown</string>
+
+    <string name="pref_volume_keys_control_music_title">Volume keys control music</string>
+    <string name="pref_volume_keys_control_music_on">Pressing volume keys shows music volume panel</string>
+    <string name="pref_volume_keys_control_music_off">Pressing volume keys shows ringer volume panel</string>
 
     <string name="pref_launcher_title">Show launcher icon</string>
     <string name="pref_launcher_on">Access settings through my launcher</string>
