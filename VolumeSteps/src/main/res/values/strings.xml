@@ -1,5 +1,8 @@
-<resources>
-    <string name="app_name">VolumeSteps+</string>
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:locale="en"
+    tools:ignore="MissingTranslation">
+
+    <string name="app_name" translatable="false">VolumeSteps+</string>
     <string name="xposed_description">Control your volume more precisely</string>
 
     <string name="default_reset">Default</string>

@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">VolumeSteps+</string>
     <string name="xposed_description">Управляйте громкостью точнее</string>
 
     <string name="default_reset">По умолчанию</string>
@@ -37,7 +36,6 @@
     <!-- About section -->
     <string name="pref_about">О программе</string>
 
-    <string name="pref_about_title" translatable="false">VolumeSteps+ v%1$s</string>
     <string name="pref_about_summary">VolumeSteps+ выпущен под лицензией GPLv3.</string>
 
     <string name="pref_donate_title">Пожертвование</string>
