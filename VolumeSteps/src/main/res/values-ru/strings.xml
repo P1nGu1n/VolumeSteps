@@ -2,6 +2,7 @@
     <string name="xposed_description">Управляйте громкостью точнее</string>
 
     <string name="default_reset">По умолчанию</string>
+    <string name="steps_format">%1$s шаги</string>
 
     <string name="ok_understand">Ок, я понял</string>
     <string name="never_show_again">Больше не показывать это сообщение</string>

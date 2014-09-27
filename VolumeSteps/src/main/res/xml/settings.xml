@@ -1,36 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:p1ngu1n="http://schemas.android.com/apk/res/com.p1ngu1n.volumesteps">
     <PreferenceCategory android:title="@string/volume_steps_category">
-        <com.p1ngu1n.volumesteps.VolumeStepsPreference
+        <com.p1ngu1n.volumesteps.SeekBarDialogPreference
             android:key="pref_stream_alarm"
             android:title="@string/stream_alarm_title"
             android:dialogTitle="@string/stream_alarm_dialog"
-            android:defaultValue="7" />
+            android:defaultValue="7"
+            p1ngu1n:min="5"
+            p1ngu1n:max="50"
+            p1ngu1n:summary_format="@string/steps_format" />
 
-        <com.p1ngu1n.volumesteps.VolumeStepsPreference
+        <com.p1ngu1n.volumesteps.SeekBarDialogPreference
             android:key="pref_stream_music"
             android:title="@string/stream_music_title"
             android:dialogTitle="@string/stream_music_dialog"
-            android:defaultValue="15" />
+            android:defaultValue="15"
+            p1ngu1n:min="5"
+            p1ngu1n:max="50"
+            p1ngu1n:summary_format="@string/steps_format" />
 
-        <com.p1ngu1n.volumesteps.VolumeStepsPreference
+        <com.p1ngu1n.volumesteps.SeekBarDialogPreference
             android:key="pref_stream_notification"
             android:title="@string/stream_notification_title"
             android:dialogTitle="@string/stream_notification_dialog"
-            android:defaultValue="7" />
+            android:defaultValue="7"
+            p1ngu1n:min="5"
+            p1ngu1n:max="50"
+            p1ngu1n:summary_format="@string/steps_format" />
 
-        <com.p1ngu1n.volumesteps.VolumeStepsPreference
+        <com.p1ngu1n.volumesteps.SeekBarDialogPreference
             android:key="pref_stream_ring"
             android:title="@string/stream_ring_title"
             android:dialogTitle="@string/stream_ring_dialog"
-            android:defaultValue="7" />
+            android:defaultValue="7"
+            p1ngu1n:min="5"
+            p1ngu1n:max="50"
+            p1ngu1n:summary_format="@string/steps_format" />
 
-        <com.p1ngu1n.volumesteps.VolumeStepsPreference
+        <com.p1ngu1n.volumesteps.SeekBarDialogPreference
             android:key="pref_stream_voicecall"
             android:title="@string/stream_voicecall_title"
             android:dialogTitle="@string/stream_voicecall_dialog"
-            android:defaultValue="5" />
+            android:defaultValue="5"
+            p1ngu1n:min="5"
+            p1ngu1n:max="50"
+            p1ngu1n:summary_format="@string/steps_format" />
 
     </PreferenceCategory>
 

@@ -6,6 +6,7 @@
     <string name="xposed_description">Control your volume more precisely</string>
 
     <string name="default_reset">Default</string>
+    <string name="steps_format">%1$s steps</string>
 
     <string name="ok_understand">OK, I understand</string>
     <string name="never_show_again">Never show this message again</string>
