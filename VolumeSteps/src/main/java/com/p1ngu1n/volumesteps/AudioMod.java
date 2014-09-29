@@ -107,38 +107,39 @@ public class AudioMod implements IXposedHookZygoteInit {
         boolean volumeKeysControlMusic = prefs.getBoolean("pref_volume_keys_control_music", false);
         if (DEBUGGING) XposedBridge.log(LOG_TAG + "Volume keys control " + (volumeKeysControlMusic ? "music" : "ringer"));
 
-        if (volumeKeysControlMusic)
-        XposedHelpers.findAndHookMethod(audioServiceClass, "getActiveStreamType", int.class, new XC_MethodHook() {
-            @Override
-            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                boolean voiceCapable = XposedHelpers.getBooleanField(param.thisObject, "mVoiceCapable");
-                if (!voiceCapable) return;
+        if (volumeKeysControlMusic) {
+            XposedHelpers.findAndHookMethod(audioServiceClass, "getActiveStreamType", int.class, new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                    boolean voiceCapable = XposedHelpers.getBooleanField(param.thisObject, "mVoiceCapable");
+                    if (!voiceCapable) return;
 
-                boolean isInCommunication = (Boolean) XposedHelpers.callMethod(param.thisObject, "isInCommunication");
-                if (isInCommunication) return;
+                    boolean isInCommunication = (Boolean) XposedHelpers.callMethod(param.thisObject, "isInCommunication");
+                    if (isInCommunication) return;
 
-                int suggestedStreamType = (Integer) param.args[0];
-                if (suggestedStreamType != AudioManager.USE_DEFAULT_STREAM_TYPE) return;
+                    int suggestedStreamType = (Integer) param.args[0];
+                    if (suggestedStreamType != AudioManager.USE_DEFAULT_STREAM_TYPE) return;
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                    boolean isAfMusicActiveRecently = (Boolean) XposedHelpers.callMethod(param.thisObject, "isAfMusicActiveRecently", 5000);
-                    if (isAfMusicActiveRecently) return;
-                } else {
-                    boolean musicStreamActive = (Boolean) XposedHelpers.callStaticMethod(audioSystemClass, "isStreamActive", AudioManager.STREAM_MUSIC, 5000);
-                    if (musicStreamActive) return;
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                        boolean isAfMusicActiveRecently = (Boolean) XposedHelpers.callMethod(param.thisObject, "isAfMusicActiveRecently", 5000);
+                        if (isAfMusicActiveRecently) return;
+                    } else {
+                        boolean musicStreamActive = (Boolean) XposedHelpers.callStaticMethod(audioSystemClass, "isStreamActive", AudioManager.STREAM_MUSIC, 5000);
+                        if (musicStreamActive) return;
+                    }
+
+                    // 4.4 and higher call checkUpdateRemoteStateIfActive at the MediaFocusControl class instead of AudioService
+                    Object objContainingRemoteStreamMethod = param.thisObject;
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                        objContainingRemoteStreamMethod = XposedHelpers.getObjectField(param.thisObject, "mMediaFocusControl");
+                    }
+                    boolean activeRemoteStream = (Boolean) XposedHelpers.callMethod(objContainingRemoteStreamMethod, "checkUpdateRemoteStateIfActive", AudioManager.STREAM_MUSIC);
+                    if (activeRemoteStream) return;
+
+                    param.setResult(AudioManager.STREAM_MUSIC);
+                    if (DEBUGGING) XposedBridge.log(LOG_TAG + "Forced volume keys control music");
                 }
-
-                // 4.4 and higher call checkUpdateRemoteStateIfActive at the MediaFocusControl class instead of AudioService
-                Object objContainingRemoteStreamMethod = param.thisObject;
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                    objContainingRemoteStreamMethod = XposedHelpers.getObjectField(param.thisObject, "mMediaFocusControl");
-                }
-                boolean activeRemoteStream = (Boolean) XposedHelpers.callMethod(objContainingRemoteStreamMethod, "checkUpdateRemoteStateIfActive", AudioManager.STREAM_MUSIC);
-                if (activeRemoteStream) return;
-
-                param.setResult(AudioManager.STREAM_MUSIC);
-                if (DEBUGGING) XposedBridge.log(LOG_TAG + "Forced volume keys control music");
-            }
-        });
+            });
+        }
     }
 }
