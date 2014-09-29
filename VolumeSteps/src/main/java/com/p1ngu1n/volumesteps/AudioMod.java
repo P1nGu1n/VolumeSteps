@@ -23,6 +23,8 @@ import android.media.AudioManager;
 import android.os.Build;
 
 import java.util.Arrays;
+import java.util.Map;
+import java.util.TreeMap;
 
 import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.XC_MethodHook;
@@ -55,7 +57,14 @@ public class AudioMod implements IXposedHookZygoteInit {
     public void initZygote(StartupParam startupParam) throws Throwable {
         // Load the user's preferences
         final XSharedPreferences prefs = new XSharedPreferences(BuildConfig.PACKAGE_NAME);
-        if (DEBUGGING) XposedBridge.log(LOG_TAG + Build.VERSION.RELEASE + "(SDK " + Build.VERSION.SDK_INT + ")");
+
+        if (DEBUGGING) {
+            XposedBridge.log(LOG_TAG + "Android " + Build.VERSION.RELEASE + " (SDK " + Build.VERSION.SDK_INT + ")");
+            Map<String, ?> sortedKeys = new TreeMap<String, Object>(prefs.getAll());
+            for (Map.Entry<String, ?> entry : sortedKeys.entrySet()) {
+                XposedBridge.log(LOG_TAG + entry.getKey() + "=" + entry.getValue().toString());
+            }
+        }
 
         final Class<?> audioServiceClass = XposedHelpers.findClass(AUDIO_SERVICE_CLASSNAME, null);
         final Class<?> audioSystemClass = XposedHelpers.findClass(AUDIO_SYSTEM_CLASSNAME, null);
@@ -72,7 +81,7 @@ public class AudioMod implements IXposedHookZygoteInit {
                     maxStreamVolume = (int[]) XposedHelpers.getObjectField(param.thisObject, "MAX_STREAM_VOLUME");
                 }
 
-                if (DEBUGGING) XposedBridge.log(LOG_TAG + "STREAM_MAX_VOLUME:before" + Arrays.toString(maxStreamVolume));
+                if (DEBUGGING) XposedBridge.log(LOG_TAG + "STREAM_MAX_VOLUME before: " + Arrays.toString(maxStreamVolume));
 
                 // Get the max volumes and set them at the index of the right stream
                 maxStreamVolume[AudioManager.STREAM_ALARM] = prefs.getInt("pref_stream_alarm", STREAM_ALARM_DEFAULT);
@@ -81,7 +90,7 @@ public class AudioMod implements IXposedHookZygoteInit {
                 maxStreamVolume[AudioManager.STREAM_RING] = prefs.getInt("pref_stream_ring", STREAM_RING_DEFAULT);
                 maxStreamVolume[AudioManager.STREAM_VOICE_CALL] = prefs.getInt("pref_stream_voicecall", STREAM_VOICECALL_DEFAULT);
 
-                if (DEBUGGING) XposedBridge.log(LOG_TAG + "STREAM_MAX_VOLUME:after" + Arrays.toString(maxStreamVolume));
+                if (DEBUGGING) XposedBridge.log(LOG_TAG + "STREAM_MAX_VOLUME after: " + Arrays.toString(maxStreamVolume));
             }
         });
 
@@ -137,9 +146,10 @@ public class AudioMod implements IXposedHookZygoteInit {
                     if (activeRemoteStream) return;
 
                     param.setResult(AudioManager.STREAM_MUSIC);
-                    if (DEBUGGING) XposedBridge.log(LOG_TAG + "Forced volume keys control music");
+                    if (DEBUGGING) XposedBridge.log(LOG_TAG + "Event: intercepted getActiveStreamType call; returned STREAM_MUSIC");
                 }
             });
+            if (DEBUGGING) XposedBridge.log(LOG_TAG + "Hooked: volume keys control music");
         }
     }
 }
