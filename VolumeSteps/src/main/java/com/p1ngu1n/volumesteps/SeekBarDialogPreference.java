@@ -38,6 +38,7 @@ public class SeekBarDialogPreference extends DialogPreference implements SeekBar
     private int mValue;
     private int mMin = 0;
     private int mMax = 100;
+    private int mInterval = 1;
     private String mFormat = "%1$s";
 
     public SeekBarDialogPreference(Context context, AttributeSet attrs, int defStyle) {
@@ -61,6 +62,7 @@ public class SeekBarDialogPreference extends DialogPreference implements SeekBar
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SeekBarDialogPreference, 0, 0);
         mMin = a.getInt(R.styleable.SeekBarDialogPreference_min, mMin);
         mMax = a.getInt(R.styleable.SeekBarDialogPreference_max, mMax);
+        mInterval = a.getInt(R.styleable.SeekBarDialogPreference_interval, mInterval);
         String format = a.getString(R.styleable.SeekBarDialogPreference_summary_format);
         if (format != null) mFormat = format;
         a.recycle();
@@ -82,7 +84,7 @@ public class SeekBarDialogPreference extends DialogPreference implements SeekBar
 
         mSeekBar = (SeekBar) onCreateDialogView.findViewById(R.id.preference_seekbar);
         mSeekBar.setOnSeekBarChangeListener(this);
-        mSeekBar.setMax(mMax - mMin);
+        mSeekBar.setMax((mMax - mMin) / mInterval);
         mSeekBar.setProgress(translateValueToIndex(mValue));
 
         return onCreateDialogView;
@@ -157,7 +159,7 @@ public class SeekBarDialogPreference extends DialogPreference implements SeekBar
      * @return The value
      */
     private int translateIndexToValue(int index) {
-        return mMin + index;
+        return mMin + (index * mInterval);
     }
 
     /**
@@ -166,7 +168,7 @@ public class SeekBarDialogPreference extends DialogPreference implements SeekBar
      * @return The index
      */
     private int translateValueToIndex(int value) {
-        return value - mMin;
+        return (value - mMin) / mInterval;
     }
 
     /**
