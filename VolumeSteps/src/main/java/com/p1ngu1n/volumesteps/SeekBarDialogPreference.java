@@ -204,8 +204,8 @@ public class SeekBarDialogPreference extends DialogPreference implements SeekBar
      */
     public void setMin(int min) {
         mMin = min;
-        mSeekBar.setProgress(getValue() - mMin);
-        mSeekBar.setMax(mMax - mMin);
+        mSeekBar.setProgress(translateValueToIndex(getValue()));
+        mSeekBar.setMax((mMax - mMin) / mInterval);
     }
 
     /**
@@ -214,7 +214,16 @@ public class SeekBarDialogPreference extends DialogPreference implements SeekBar
      */
     public void setMax(int max) {
         mMax = max;
-        mSeekBar.setMax(mMax - mMin);
+        mSeekBar.setMax((mMax - mMin) / mInterval);
+    }
+
+    /**
+     * Set the interval of the SeekBar values.
+     * @param interval The interval to set
+     */
+    public void setInterval(int interval) {
+        mInterval = interval;
+        mSeekBar.setMax((mMax - mMin) / mInterval);
     }
 
     /**
