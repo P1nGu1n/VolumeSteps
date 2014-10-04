@@ -83,9 +83,7 @@ public class SeekBarDialogPreference extends DialogPreference implements SeekBar
         mSeekBar = (SeekBar) onCreateDialogView.findViewById(R.id.preference_seekbar);
         mSeekBar.setOnSeekBarChangeListener(this);
         mSeekBar.setMax(mMax - mMin);
-        // Translate the value to index to set on the seekbar
-        int index = mValue - mMin;
-        mSeekBar.setProgress(index);
+        mSeekBar.setProgress(translateValueToIndex(mValue));
 
         return onCreateDialogView;
     }
@@ -109,8 +107,7 @@ public class SeekBarDialogPreference extends DialogPreference implements SeekBar
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         if (fromUser) {
-            // Translate the index to the value
-            updateValue(progress + mMin);
+            updateValue(translateIndexToValue(progress));
             mValueTextView.setText(getSummary());
         }
     }
@@ -152,6 +149,24 @@ public class SeekBarDialogPreference extends DialogPreference implements SeekBar
      */
     private void updateSummary() {
         setSummary(getSummary());
+    }
+
+    /**
+     * Translate the index from the SeekBar to the actual value.
+     * @param index The index to translate
+     * @return The value
+     */
+    private int translateIndexToValue(int index) {
+        return mMin + index;
+    }
+
+    /**
+     * Translate the actual value to the index for the SeekBar.
+     * @param value The value to translate
+     * @return The index
+     */
+    private int translateValueToIndex(int value) {
+        return value - mMin;
     }
 
     /**
