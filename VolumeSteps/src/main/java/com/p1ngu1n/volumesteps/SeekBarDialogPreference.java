@@ -84,7 +84,7 @@ public class SeekBarDialogPreference extends DialogPreference implements SeekBar
 
         mSeekBar = (SeekBar) onCreateDialogView.findViewById(R.id.preference_seekbar);
         mSeekBar.setOnSeekBarChangeListener(this);
-        mSeekBar.setMax((mMax - mMin) / mInterval);
+        mSeekBar.setMax(calculateMaxIndex());
         mSeekBar.setProgress(translateValueToIndex(mValue));
 
         return onCreateDialogView;
@@ -172,6 +172,14 @@ public class SeekBarDialogPreference extends DialogPreference implements SeekBar
     }
 
     /**
+     * Calculate the maximum SeekBar index based on the interval and minimum and maximum values.
+     * @return The maximum index
+     */
+    private int calculateMaxIndex() {
+        return (mMax - mMin) / mInterval;
+    }
+
+    /**
      * Get the value of the preference.
      * @return The current value
      */
@@ -205,7 +213,7 @@ public class SeekBarDialogPreference extends DialogPreference implements SeekBar
     public void setMin(int min) {
         mMin = min;
         mSeekBar.setProgress(translateValueToIndex(getValue()));
-        mSeekBar.setMax((mMax - mMin) / mInterval);
+        mSeekBar.setMax(calculateMaxIndex());
     }
 
     /**
@@ -214,7 +222,7 @@ public class SeekBarDialogPreference extends DialogPreference implements SeekBar
      */
     public void setMax(int max) {
         mMax = max;
-        mSeekBar.setMax((mMax - mMin) / mInterval);
+        mSeekBar.setMax(calculateMaxIndex());
     }
 
     /**
@@ -223,7 +231,7 @@ public class SeekBarDialogPreference extends DialogPreference implements SeekBar
      */
     public void setInterval(int interval) {
         mInterval = interval;
-        mSeekBar.setMax((mMax - mMin) / mInterval);
+        mSeekBar.setMax(calculateMaxIndex());
     }
 
     /**
