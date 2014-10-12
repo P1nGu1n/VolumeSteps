@@ -1,0 +1,64 @@
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:locale="en"
+    tools:ignore="MissingTranslation">
+
+    <string name="app_name" translatable="false">VolumeSteps+</string>
+    <string name="xposed_description">Contrôle plus précis de votre volume</string>
+
+    <string name="require_android_Version">Nécessite %1$s ou plus</string>
+
+    <!-- Volume steps dialog -->
+    <string name="default_reset">Par défaut</string>
+    <string name="steps_format">%1$s niveaux</string>
+
+    <!-- Reboot dialog -->
+    <string name="ok_understand">OK, j\'ai compris</string>
+    <string name="never_show_again">Ne plus afficher</string>
+    <string name="reboot_message">Après avoir défini vos paramètres, un redémarrage est nécessaire pour que les modifications prennent effet. Profitez de VolumeSteps+ !</string>
+
+    <!-- Volume step options -->
+    <string name="volume_steps_category">Niveaux de volume</string>
+
+    <string name="stream_alarm_title">Alarme</string>
+    <string name="stream_alarm_dialog">Niveaux de volume de l\'alarme</string>
+
+    <string name="stream_music_title">Musique</string>
+    <string name="stream_music_dialog">Niveaux de volume de la musique</string>
+
+    <string name="stream_notification_title">Notification</string>
+    <string name="stream_notification_dialog">Niveaux de volume de la notification</string>
+
+    <string name="stream_ring_title">Sonnerie</string>
+    <string name="stream_ring_dialog">Niveaux de volume de la sonnerie</string>
+
+    <string name="stream_voicecall_title">Appel vocal</string>
+    <string name="stream_voicecall_dialog">Niveaux de volume de l\'appel vocal</string>
+
+    <!-- Other settings -->
+    <string name="pref_other">Autre</string>
+
+    <string name="pref_safe_headset_volume_title">Volume sécurisé du casque</string>
+    <string name="pref_safe_headset_volume_on">L\'avertissement sera masqué</string>
+    <string name="pref_safe_headset_volume_off">L\'avertissement sera affiché</string>
+
+    <string name="pref_volume_keys_control_music_title">Contrôle du volume de la musique</string>
+    <string name="pref_volume_keys_control_music_on">Un appui sur les boutons de volume affiche le volume de la musique</string>
+    <string name="pref_volume_keys_control_music_off">Un appui sur les boutons de volume affiche le volume de la sonnerie</string>
+
+    <string name="pref_launcher_title">Afficher l\'icône</string>
+    <string name="pref_launcher_on">Accéder aux paramètres via le lanceur</string>
+    <string name="pref_launcher_off">Accéder aux paramètres via Xposed Installer</string>
+
+    <!-- About section -->
+    <string name="pref_about">À propos</string>
+
+    <string name="pref_about_title" translatable="false">VolumeSteps+ v%1$s</string>
+    <string name="pref_about_summary">VolumeSteps+ est publié sous la licence GPLv3.</string>
+
+    <string name="pref_donate_title">Donation</string>
+    <string name="pref_donate_summary">Soutenez-moi, achetez-moi une bière via PayPal. Les dons sont très appréciés.</string>
+
+    <string name="pref_support_title">Aide</string>
+    <string name="pref_support_summary">Accéder au topic sur XDA. Assurez-vous d\'avoir redémarré, cela est nécessaire pour que les modifications prennent effet. Veuillez lire le 1er post si vous êtes toujours confronté à des problèmes.</string>
+
+</resources>
