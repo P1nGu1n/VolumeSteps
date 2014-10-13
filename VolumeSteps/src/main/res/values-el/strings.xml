@@ -1,0 +1,64 @@
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:locale="en"
+    tools:ignore="MissingTranslation">
+
+    <string name="app_name" translatable="false">VolumeSteps+</string>
+    <string name="xposed_description">Control your volume more precisely</string>
+
+    <string name="require_android_Version">Requires %1$s or higher</string>
+
+    <!-- Volume steps dialog -->
+    <string name="default_reset">Default</string>
+    <string name="steps_format">%1$s steps</string>
+
+    <!-- Reboot dialog -->
+    <string name="ok_understand">OK, I understand</string>
+    <string name="never_show_again">Never show this message again</string>
+    <string name="reboot_message">After you made your changes, a reboot is required in order for the changes to take effect. Enjoy VolumeSteps+!</string>
+
+    <!-- Volume step options -->
+    <string name="volume_steps_category">Volume steps</string>
+
+    <string name="stream_alarm_title">Alarm</string>
+    <string name="stream_alarm_dialog">Alarm Volume Steps</string>
+
+    <string name="stream_music_title">Music</string>
+    <string name="stream_music_dialog">Music Volume Steps</string>
+
+    <string name="stream_notification_title">Notification</string>
+    <string name="stream_notification_dialog">Notification Volume Steps</string>
+
+    <string name="stream_ring_title">Ringer</string>
+    <string name="stream_ring_dialog">Ringer Volume Steps</string>
+
+    <string name="stream_voicecall_title">Voice Call</string>
+    <string name="stream_voicecall_dialog">Voice Call Volume Steps</string>
+
+    <!-- Other settings -->
+    <string name="pref_other">Other</string>
+
+    <string name="pref_safe_headset_volume_title">Safe headset volume warning</string>
+    <string name="pref_safe_headset_volume_on">The safe headset volume warning won\'t be shown</string>
+    <string name="pref_safe_headset_volume_off">The safe headset volume warning will be shown</string>
+
+    <string name="pref_volume_keys_control_music_title">Volume keys control music</string>
+    <string name="pref_volume_keys_control_music_on">Pressing volume keys shows music volume panel</string>
+    <string name="pref_volume_keys_control_music_off">Pressing volume keys shows ringer volume panel</string>
+
+    <string name="pref_launcher_title">Show launcher icon</string>
+    <string name="pref_launcher_on">Access settings through my launcher</string>
+    <string name="pref_launcher_off">Access settings through Xposed Installer</string>
+
+    <!-- About section -->
+    <string name="pref_about">About</string>
+
+    <string name="pref_about_title" translatable="false">VolumeSteps+ v%1$s</string>
+    <string name="pref_about_summary">VolumeSteps+ is released under the GPLv3 license.</string>
+
+    <string name="pref_donate_title">Donate</string>
+    <string name="pref_donate_summary">Support me, buy me a beer using PayPal. Donations are highly appreciated.</string>
+
+    <string name="pref_support_title">Support</string>
+    <string name="pref_support_summary">Navigate to the XDA-thread. Make sure you\'ve rebooted first, this is required for the changes to take affect. Please read the OP if you\'re still facing problems.</string>
+
+</resources>
