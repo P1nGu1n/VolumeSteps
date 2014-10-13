@@ -1,9 +1,13 @@
 <resources>
     <string name="xposed_description">Управляйте громкостью точнее</string>
 
+    <string name="require_android_Version">Требуется %1$s или выше</string>
+
+    <!-- Volume steps dialog -->
     <string name="default_reset">По умолчанию</string>
     <string name="steps_format">%1$s шаги</string>
 
+    <!-- Reboot dialog -->
     <string name="ok_understand">Ок, я понял</string>
     <string name="never_show_again">Больше не показывать это сообщение</string>
     <string name="reboot_message">Позле изменения параметров необходима перезагрузка. Наслаждайтесь VolumeSteps+!</string>
@@ -17,6 +21,9 @@
     <string name="stream_music_title">Музыка</string>
     <string name="stream_music_dialog">Шаги громкости музыки</string>
 
+    <string name="stream_notification_title">уведомление</string>
+    <string name="stream_notification_dialog">Шаги громкости уведомление</string>
+
     <string name="stream_ring_title">Звонок</string>
     <string name="stream_ring_dialog">Шаги громкости звонка</string>
 
@@ -29,6 +36,11 @@
     <string name="pref_safe_headset_volume_title">Предупреждение о высокой громкости</string>
     <string name="pref_safe_headset_volume_on">Предупреждение о громкости будет скрыто</string>
     <string name="pref_safe_headset_volume_off">Предупреждение о громкости будет показано</string>
+
+    <!-- Missing translation
+    <string name="pref_volume_keys_control_music_title">Volume keys control music</string>
+    <string name="pref_volume_keys_control_music_on">Pressing volume keys shows music volume panel</string>
+    <string name="pref_volume_keys_control_music_off">Pressing volume keys shows ringer volume panel</string>-->
 
     <string name="pref_launcher_title">Показывать иконку в лончере</string>
     <string name="pref_launcher_on">Доступ к настройкам через лончер</string>

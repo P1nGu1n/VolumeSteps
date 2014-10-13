@@ -1,8 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools"
-    tools:locale="en"
-    tools:ignore="MissingTranslation">
-
-    <string name="app_name" translatable="false">VolumeSteps+</string>
+<resources>
     <string name="xposed_description">Contrôle plus précis de votre volume</string>
 
     <string name="require_android_Version">Nécessite %1$s ou plus</string>
@@ -52,7 +48,6 @@
     <!-- About section -->
     <string name="pref_about">À propos</string>
 
-    <string name="pref_about_title" translatable="false">VolumeSteps+ v%1$s</string>
     <string name="pref_about_summary">VolumeSteps+ est publié sous la licence GPLv3.</string>
 
     <string name="pref_donate_title">Donation</string>
