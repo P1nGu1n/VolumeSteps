@@ -56,11 +56,12 @@ public class AudioMod implements IXposedHookZygoteInit {
         // Load the user's preferences
         final XSharedPreferences prefs = new XSharedPreferences(BuildConfig.APPLICATION_ID);
         final boolean debugging = prefs.getBoolean("pref_debug", false);
+        final boolean compatibilityModeLG = prefs.getBoolean("pref_compatibility_mode_lg", false);
 
         if (debugging) {
             XposedBridge.log(LOG_TAG + "Android " + Build.VERSION.RELEASE + " (SDK " + Build.VERSION.SDK_INT + ")");
 
-            if (useLgCompatibilityMode()) {
+            if (compatibilityModeLG) {
                 XposedBridge.log("Using LG compatibility mode");
             }
 
@@ -70,9 +71,9 @@ public class AudioMod implements IXposedHookZygoteInit {
             }
         }
 
-        final Class<?> audioServiceClass = XposedHelpers.findClass(useLgCompatibilityMode() ? "android.media.AudioServiceEx" : "android.media.AudioService", null);
+        final Class<?> audioServiceClass = XposedHelpers.findClass(compatibilityModeLG ? "android.media.AudioServiceEx" : "android.media.AudioService", null);
         final Class<?> audioSystemClass = XposedHelpers.findClass("android.media.AudioSystem", null);
-        final String maxStreamVolumeField = (useLgCompatibilityMode() ? "MAX_STREAM_VOLUME_Ex" : "MAX_STREAM_VOLUME");
+        final String maxStreamVolumeField = (compatibilityModeLG ? "MAX_STREAM_VOLUME_Ex" : "MAX_STREAM_VOLUME");
 
         // Hook createAudioSystemThread, this method is called very early in the constructor of AudioService
         XposedHelpers.findAndHookMethod(audioServiceClass, "createAudioSystemThread", new XC_MethodHook() {
@@ -155,15 +156,6 @@ public class AudioMod implements IXposedHookZygoteInit {
                     if (debugging) XposedBridge.log(LOG_TAG + "Event: intercepted getActiveStreamType call; returned STREAM_MUSIC");
                 }
             });
-            if (debugging) XposedBridge.log(LOG_TAG + "Hooked: volume keys control music");
         }
-    }
-
-    /**
-     * LG devices running KitKat need special attention.
-     * @return Whether the device is manufactured by LG and running KitKat
-     */
-    private static boolean useLgCompatibilityMode() {
-        return ("LGE".equals(Build.MANUFACTURER) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT);
     }
 }

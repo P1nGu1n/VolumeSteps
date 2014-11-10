@@ -29,6 +29,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
+import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.view.View;
 import android.widget.CheckBox;
@@ -62,6 +63,12 @@ public class SettingsFragment extends PreferenceFragment {
             CheckBoxPreference volumeKeysControlMusic = (CheckBoxPreference) findPreference("pref_volume_keys_control_music");
             volumeKeysControlMusic.setEnabled(false);
             volumeKeysControlMusic.setSummaryOff(getString(R.string.require_android_Version, "Android 4.1"));
+        }
+        // LG Compatibility mode is only for LG devices running KitKat
+        if (!Build.MANUFACTURER.equals("LGE") || Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+            Preference compatibilityModeLgPreference = findPreference("pref_compatibility_mode_lg");
+            PreferenceCategory mCategory = (PreferenceCategory) findPreference("pref_category_other");
+            mCategory.removePreference(compatibilityModeLgPreference);
         }
 
         SharedPreferences sharedPreferences = getPreferenceScreen().getSharedPreferences();

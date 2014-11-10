@@ -40,6 +40,9 @@
     <!-- Other settings -->
     <string name="pref_other">Other</string>
 
+    <string name="pref_compatibility_mode_lg_title">Use LG Compatibility mode</string>
+    <string name="pref_compatibility_mode_lg_summary">Compatibility mode for LG devices, only needed on stock KitKat roms</string>
+
     <string name="pref_safe_headset_volume_title">Safe headset volume warning</string>
     <string name="pref_safe_headset_volume_on">The safe headset volume warning won\'t be shown</string>
     <string name="pref_safe_headset_volume_off">The safe headset volume warning will be shown</string>

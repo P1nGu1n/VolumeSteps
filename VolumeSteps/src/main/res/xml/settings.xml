@@ -59,7 +59,14 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/pref_other">
+    <PreferenceCategory android:title="@string/pref_other"
+        android:key="pref_category_other">
+        <CheckBoxPreference
+            android:key="pref_compatibility_mode_lg"
+            android:title="@string/pref_compatibility_mode_lg_title"
+            android:summary="@string/pref_compatibility_mode_lg_summary"
+            android:defaultValue="false" />
+
         <CheckBoxPreference
             android:key="pref_safe_headset_volume_disabled"
             android:title="@string/pref_safe_headset_volume_title"
