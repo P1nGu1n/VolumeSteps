@@ -49,6 +49,10 @@
     <string name="pref_launcher_on">Access settings through my launcher</string>
     <string name="pref_launcher_off">Access settings through Xposed Installer</string>
 
+    <string name="pref_debug_title">Debugging</string>
+    <string name="pref_debug_on">Debug information is shown in the Xposed Log</string>
+    <string name="pref_debug_off">Debug information is not shown in the Xposed Log</string>
+
     <!-- About section -->
     <string name="pref_about">About</string>
 

@@ -42,7 +42,6 @@ import de.robv.android.xposed.XposedHelpers;
  */
 public class AudioMod implements IXposedHookZygoteInit {
     private static final String LOG_TAG = "VolumeSteps+: ";
-    private static final boolean DEBUGGING = false;
 
     private static final int STREAM_ALARM_DEFAULT = 7;
     private static final int STREAM_MUSIC_DEFAULT = 15;
@@ -55,8 +54,9 @@ public class AudioMod implements IXposedHookZygoteInit {
     public void initZygote(StartupParam startupParam) throws Throwable {
         // Load the user's preferences
         final XSharedPreferences prefs = new XSharedPreferences(BuildConfig.APPLICATION_ID);
+        final boolean debugging = prefs.getBoolean("pref_debug", false);
 
-        if (DEBUGGING) {
+        if (debugging) {
             XposedBridge.log(LOG_TAG + "Android " + Build.VERSION.RELEASE + " (SDK " + Build.VERSION.SDK_INT + ")");
 
             if (useLgCompatibilityMode()) {
@@ -85,7 +85,7 @@ public class AudioMod implements IXposedHookZygoteInit {
                     maxStreamVolume = (int[]) XposedHelpers.getObjectField(param.thisObject, maxStreamVolumeField);
                 }
 
-                if (DEBUGGING) XposedBridge.log(LOG_TAG + "MAX_STREAM_VOLUME before: " + Arrays.toString(maxStreamVolume));
+                if (debugging) XposedBridge.log(LOG_TAG + "MAX_STREAM_VOLUME before: " + Arrays.toString(maxStreamVolume));
 
                 // Get the max volumes and set them at the index of the right stream
                 maxStreamVolume[AudioManager.STREAM_ALARM] = prefs.getInt("pref_stream_alarm", STREAM_ALARM_DEFAULT);
@@ -94,7 +94,7 @@ public class AudioMod implements IXposedHookZygoteInit {
                 maxStreamVolume[AudioManager.STREAM_RING] = prefs.getInt("pref_stream_ring", STREAM_RING_DEFAULT);
                 maxStreamVolume[AudioManager.STREAM_VOICE_CALL] = prefs.getInt("pref_stream_voicecall", STREAM_VOICECALL_DEFAULT);
 
-                if (DEBUGGING) XposedBridge.log(LOG_TAG + "MAX_STREAM_VOLUME after: " + Arrays.toString(maxStreamVolume));
+                if (debugging) XposedBridge.log(LOG_TAG + "MAX_STREAM_VOLUME after: " + Arrays.toString(maxStreamVolume));
             }
         });
 
@@ -105,20 +105,20 @@ public class AudioMod implements IXposedHookZygoteInit {
         if (saveHeadsetVolumeDisabled) {
             // Disable the safe headset volume warning
             XResources.setSystemWideReplacement("android", "bool", "config_safe_media_volume_enabled", false);
-            if (DEBUGGING) XposedBridge.log(LOG_TAG + "Safe Headset Volume is disabled");
+            if (debugging) XposedBridge.log(LOG_TAG + "Safe Headset Volume is disabled");
         } else {
             // Calculate the new headset volume warning to comply with the new maximum music volume
             int maxMusicSteps = prefs.getInt("pref_stream_music", 15);
             int safeHeadsetVolume = (int) Math.round(maxMusicSteps * (2.0 / 3.0));
 
             XResources.setSystemWideReplacement("android", "integer", "config_safe_media_volume_index", safeHeadsetVolume);
-            if (DEBUGGING) XposedBridge.log(LOG_TAG + "Safe Headset Volume set to " + safeHeadsetVolume);
+            if (debugging) XposedBridge.log(LOG_TAG + "Safe Headset Volume set to " + safeHeadsetVolume);
         }
 
 
         // Whether the volume keys control the music stream or the ringer volume
         boolean volumeKeysControlMusic = prefs.getBoolean("pref_volume_keys_control_music", false);
-        if (DEBUGGING) XposedBridge.log(LOG_TAG + "Volume keys control " + (volumeKeysControlMusic ? "music" : "ringer"));
+        if (debugging) XposedBridge.log(LOG_TAG + "Volume keys control " + (volumeKeysControlMusic ? "music" : "ringer"));
 
         if (volumeKeysControlMusic) {
             XposedHelpers.findAndHookMethod(audioServiceClass, "getActiveStreamType", int.class, new XC_MethodHook() {
@@ -150,10 +150,10 @@ public class AudioMod implements IXposedHookZygoteInit {
                     if (activeRemoteStream) return;
 
                     param.setResult(AudioManager.STREAM_MUSIC);
-                    if (DEBUGGING) XposedBridge.log(LOG_TAG + "Event: intercepted getActiveStreamType call; returned STREAM_MUSIC");
+                    if (debugging) XposedBridge.log(LOG_TAG + "Event: intercepted getActiveStreamType call; returned STREAM_MUSIC");
                 }
             });
-            if (DEBUGGING) XposedBridge.log(LOG_TAG + "Hooked: volume keys control music");
+            if (debugging) XposedBridge.log(LOG_TAG + "Hooked: volume keys control music");
         }
     }
 

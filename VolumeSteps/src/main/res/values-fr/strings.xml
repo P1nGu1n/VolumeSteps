@@ -45,6 +45,10 @@
     <string name="pref_launcher_on">Accéder aux paramètres via le lanceur</string>
     <string name="pref_launcher_off">Accéder aux paramètres via Xposed Installer</string>
 
+    <string name="pref_debug_title">Débogage</string>
+    <string name="pref_debug_on">Activer la journalisation dans l\'onglet Log Xposed</string>
+    <string name="pref_debug_off">Désactiver la journalisation dans l\'onglet Log Xposed</string>
+
     <!-- About section -->
     <string name="pref_about">À propos</string>
 

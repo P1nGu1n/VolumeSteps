@@ -72,6 +72,13 @@
             android:summaryOn="@string/pref_launcher_on"
             android:defaultValue="true" />
 
+        <CheckBoxPreference
+            android:key="pref_debug"
+            android:title="@string/pref_debug_title"
+            android:summaryOff="@string/pref_debug_off"
+            android:summaryOn="@string/pref_debug_on"
+            android:defaultValue="false" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_about">
