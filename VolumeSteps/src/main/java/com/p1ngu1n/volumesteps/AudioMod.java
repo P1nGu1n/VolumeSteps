@@ -41,8 +41,6 @@ import de.robv.android.xposed.XposedHelpers;
  * Source code of the config file which values are replaced:            https://github.com/android/platform_frameworks_base/blob/master/core/res/res/values/config.xml
  */
 public class AudioMod implements IXposedHookZygoteInit {
-    private static final String AUDIO_SERVICE_CLASSNAME = "android.media.AudioService";
-    private static final String AUDIO_SYSTEM_CLASSNAME = "android.media.AudioSystem";
     private static final String LOG_TAG = "VolumeSteps+: ";
     private static final boolean DEBUGGING = false;
 
@@ -60,14 +58,20 @@ public class AudioMod implements IXposedHookZygoteInit {
 
         if (DEBUGGING) {
             XposedBridge.log(LOG_TAG + "Android " + Build.VERSION.RELEASE + " (SDK " + Build.VERSION.SDK_INT + ")");
+
+            if (useLgCompatibilityMode()) {
+                XposedBridge.log("Using LG compatibility mode");
+            }
+
             Map<String, ?> sortedKeys = new TreeMap<String, Object>(prefs.getAll());
             for (Map.Entry<String, ?> entry : sortedKeys.entrySet()) {
                 XposedBridge.log(LOG_TAG + entry.getKey() + "=" + entry.getValue().toString());
             }
         }
 
-        final Class<?> audioServiceClass = XposedHelpers.findClass(AUDIO_SERVICE_CLASSNAME, null);
-        final Class<?> audioSystemClass = XposedHelpers.findClass(AUDIO_SYSTEM_CLASSNAME, null);
+        final Class<?> audioServiceClass = XposedHelpers.findClass(useLgCompatibilityMode() ? "android.media.AudioServiceEx" : "android.media.AudioService", null);
+        final Class<?> audioSystemClass = XposedHelpers.findClass("android.media.AudioSystem", null);
+        final String maxStreamVolumeField = (useLgCompatibilityMode() ? "MAX_STREAM_VOLUME_Ex" : "MAX_STREAM_VOLUME");
 
         // Hook createAudioSystemThread, this method is called very early in the constructor of AudioService
         XposedHelpers.findAndHookMethod(audioServiceClass, "createAudioSystemThread", new XC_MethodHook() {
@@ -76,12 +80,12 @@ public class AudioMod implements IXposedHookZygoteInit {
                 // Retrieve array containing the maximum stream volumes, depends on Android version
                 int[] maxStreamVolume;
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                    maxStreamVolume = (int[]) XposedHelpers.getStaticObjectField(audioServiceClass, "MAX_STREAM_VOLUME");
+                    maxStreamVolume = (int[]) XposedHelpers.getStaticObjectField(audioServiceClass, maxStreamVolumeField);
                 } else {
-                    maxStreamVolume = (int[]) XposedHelpers.getObjectField(param.thisObject, "MAX_STREAM_VOLUME");
+                    maxStreamVolume = (int[]) XposedHelpers.getObjectField(param.thisObject, maxStreamVolumeField);
                 }
 
-                if (DEBUGGING) XposedBridge.log(LOG_TAG + "STREAM_MAX_VOLUME before: " + Arrays.toString(maxStreamVolume));
+                if (DEBUGGING) XposedBridge.log(LOG_TAG + "MAX_STREAM_VOLUME before: " + Arrays.toString(maxStreamVolume));
 
                 // Get the max volumes and set them at the index of the right stream
                 maxStreamVolume[AudioManager.STREAM_ALARM] = prefs.getInt("pref_stream_alarm", STREAM_ALARM_DEFAULT);
@@ -90,7 +94,7 @@ public class AudioMod implements IXposedHookZygoteInit {
                 maxStreamVolume[AudioManager.STREAM_RING] = prefs.getInt("pref_stream_ring", STREAM_RING_DEFAULT);
                 maxStreamVolume[AudioManager.STREAM_VOICE_CALL] = prefs.getInt("pref_stream_voicecall", STREAM_VOICECALL_DEFAULT);
 
-                if (DEBUGGING) XposedBridge.log(LOG_TAG + "STREAM_MAX_VOLUME after: " + Arrays.toString(maxStreamVolume));
+                if (DEBUGGING) XposedBridge.log(LOG_TAG + "MAX_STREAM_VOLUME after: " + Arrays.toString(maxStreamVolume));
             }
         });
 
@@ -151,5 +155,13 @@ public class AudioMod implements IXposedHookZygoteInit {
             });
             if (DEBUGGING) XposedBridge.log(LOG_TAG + "Hooked: volume keys control music");
         }
+    }
+
+    /**
+     * LG devices running KitKat need special attention.
+     * @return Whether the device is manufactured by LG and running KitKat
+     */
+    private static boolean useLgCompatibilityMode() {
+        return ("LGE".equals(Build.MANUFACTURER) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT);
     }
 }
