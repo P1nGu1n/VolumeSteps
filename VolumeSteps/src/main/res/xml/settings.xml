@@ -40,6 +40,15 @@
             p1ngu1n:summary_format="@string/steps_format" />
 
         <com.p1ngu1n.volumesteps.SeekBarDialogPreference
+            android:key="pref_stream_system"
+            android:title="@string/stream_system_title"
+            android:dialogTitle="@string/stream_system_dialog"
+            android:defaultValue="7"
+            p1ngu1n:min="5"
+            p1ngu1n:max="50"
+            p1ngu1n:summary_format="@string/steps_format" />
+
+        <com.p1ngu1n.volumesteps.SeekBarDialogPreference
             android:key="pref_stream_voicecall"
             android:title="@string/stream_voicecall_title"
             android:dialogTitle="@string/stream_voicecall_dialog"

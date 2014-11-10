@@ -27,6 +27,9 @@
     <string name="stream_ring_title">Sonnerie</string>
     <string name="stream_ring_dialog">Niveaux de volume de la sonnerie</string>
 
+    <string name="stream_system_dialog">Niveaux de volume de le système</string>
+    <string name="stream_system_title">Système</string>
+
     <string name="stream_voicecall_title">Appel vocal</string>
     <string name="stream_voicecall_dialog">Niveaux de volume de l\'appel vocal</string>
 

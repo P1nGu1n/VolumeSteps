@@ -47,6 +47,7 @@ public class AudioMod implements IXposedHookZygoteInit {
     private static final int STREAM_MUSIC_DEFAULT = 15;
     private static final int STREAM_NOTIFICATION_DEFAULT = 7;
     private static final int STREAM_RING_DEFAULT = 7;
+    private static final int STREAM_SYSTEM_DEFAULT = 7;
     private static final int STREAM_VOICECALL_DEFAULT = 5;
 
 
@@ -92,6 +93,7 @@ public class AudioMod implements IXposedHookZygoteInit {
                 maxStreamVolume[AudioManager.STREAM_MUSIC] = prefs.getInt("pref_stream_music", STREAM_MUSIC_DEFAULT);
                 maxStreamVolume[AudioManager.STREAM_NOTIFICATION] = prefs.getInt("pref_stream_notification", STREAM_NOTIFICATION_DEFAULT);
                 maxStreamVolume[AudioManager.STREAM_RING] = prefs.getInt("pref_stream_ring", STREAM_RING_DEFAULT);
+                maxStreamVolume[AudioManager.STREAM_SYSTEM] = prefs.getInt("pref_stream_system", STREAM_SYSTEM_DEFAULT);
                 maxStreamVolume[AudioManager.STREAM_VOICE_CALL] = prefs.getInt("pref_stream_voicecall", STREAM_VOICECALL_DEFAULT);
 
                 if (debugging) XposedBridge.log(LOG_TAG + "MAX_STREAM_VOLUME after: " + Arrays.toString(maxStreamVolume));

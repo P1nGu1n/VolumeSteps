@@ -31,6 +31,9 @@
     <string name="stream_ring_title">Ringer</string>
     <string name="stream_ring_dialog">Ringer Volume Steps</string>
 
+    <string name="stream_system_title">System</string>
+    <string name="stream_system_dialog">System Volume Steps</string>
+
     <string name="stream_voicecall_title">Voice Call</string>
     <string name="stream_voicecall_dialog">Voice Call Volume Steps</string>
 

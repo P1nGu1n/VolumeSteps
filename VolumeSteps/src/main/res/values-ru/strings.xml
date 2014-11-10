@@ -27,6 +27,9 @@
     <string name="stream_ring_title">Звонок</string>
     <string name="stream_ring_dialog">Шаги громкости звонка</string>
 
+    <string name="stream_system_dialog">Шаги громкости система</string>
+    <string name="stream_system_title">cистема</string>
+
     <string name="stream_voicecall_title">Голосовой вызов</string>
     <string name="stream_voicecall_dialog">Шаги громкости голоса</string>
 
