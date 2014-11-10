@@ -54,7 +54,7 @@ public class AudioMod implements IXposedHookZygoteInit {
     @Override
     public void initZygote(StartupParam startupParam) throws Throwable {
         // Load the user's preferences
-        final XSharedPreferences prefs = new XSharedPreferences(BuildConfig.PACKAGE_NAME);
+        final XSharedPreferences prefs = new XSharedPreferences(BuildConfig.APPLICATION_ID);
 
         if (DEBUGGING) {
             XposedBridge.log(LOG_TAG + "Android " + Build.VERSION.RELEASE + " (SDK " + Build.VERSION.SDK_INT + ")");
