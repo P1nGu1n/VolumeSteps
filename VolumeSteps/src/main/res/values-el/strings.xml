@@ -27,11 +27,17 @@
     <string name="stream_ring_title">Ήχος κλήσης</string>
     <string name="stream_ring_dialog">Βήματα ήχου κλήσης</string>
 
+    <string name="stream_system_title">Σύστημα</string>
+    <string name="stream_system_dialog">Βήματα ήχου συστήματος</string>
+
     <string name="stream_voicecall_title">Φωνητική κλήση</string>
     <string name="stream_voicecall_dialog">Βήματα ήχου φωνητικής κλήσης</string>
 
     <!-- Other settings -->
     <string name="pref_other">Επιπλέων ρυθμίσεις</string>
+
+    <string name="pref_compatibility_mode_lg_title">Χρήση λειτουργίας συμβατότητας LG</string>
+    <string name="pref_compatibility_mode_lg_summary">Λειτουργία συμβατότητας για συσκευές LG με KitKat ROMs</string>
 
     <string name="pref_safe_headset_volume_title">Ειδοποίηση ασφαλούς έντασης ακουστικών</string>
     <string name="pref_safe_headset_volume_on">Η ειδοποίηση ασφαλούς έντασης ακουστικών δεν θα εμφανίζεται</string>
@@ -44,6 +50,10 @@
     <string name="pref_launcher_title">Εμφάνιση εικονιδίου στον launcher</string>
     <string name="pref_launcher_on">Πρόσβαση σε αυτές τις ρυθμίσεις μέσω του launcher</string>
     <string name="pref_launcher_off">Πρόσβαση σε αυτές τις ρυθμίσεις μέσω του Xposed Installer</string>
+
+    <string name="pref_debug_title">Αποσφαλμάτωση</string>
+    <string name="pref_debug_on">Επιπλέον πληροφορίες για εντοπισμό σφαλμάτων εμφανίζονται στο Xposed Log</string>
+    <string name="pref_debug_off">Επιπλέον πληροφορίες για εντοπισμό σφαλμάτων δεν εμφανίζονται στο Xposed Log</string>
 
     <!-- About section -->
     <string name="pref_about">Σχετικά</string>
