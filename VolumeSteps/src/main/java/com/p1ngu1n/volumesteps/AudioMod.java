@@ -61,13 +61,13 @@ public class AudioMod implements IXposedHookZygoteInit {
         if (debugging) {
             XposedBridge.log(LOG_TAG + "Android " + Build.VERSION.RELEASE + " (SDK " + Build.VERSION.SDK_INT + ")");
 
-            if (compatibilityModeLG) {
-                XposedBridge.log("Using LG compatibility mode");
-            }
-
             Map<String, ?> sortedKeys = new TreeMap<String, Object>(prefs.getAll());
             for (Map.Entry<String, ?> entry : sortedKeys.entrySet()) {
                 XposedBridge.log(LOG_TAG + entry.getKey() + "=" + entry.getValue().toString());
+            }
+
+            if (compatibilityModeLG) {
+                XposedBridge.log(LOG_TAG + "Using LG compatibility mode");
             }
         }
 
