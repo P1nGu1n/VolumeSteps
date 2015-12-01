@@ -127,8 +127,13 @@ public class AudioMod implements IXposedHookZygoteInit {
             XposedHelpers.findAndHookMethod(audioServiceClass, "getActiveStreamType", int.class, new XC_MethodHook() {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                    boolean voiceCapable = XposedHelpers.getBooleanField(param.thisObject, "mVoiceCapable");
-                    if (!voiceCapable) return;
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        boolean platformVoice = (boolean) XposedHelpers.callMethod(param.thisObject, "isPlatformVoice");
+                        if (!platformVoice) return;
+                    } else {
+                        boolean voiceCapable = XposedHelpers.getBooleanField(param.thisObject, "mVoiceCapable");
+                        if (!voiceCapable) return;
+                    }
 
                     boolean isInCommunication = (Boolean) XposedHelpers.callMethod(param.thisObject, "isInCommunication");
                     if (isInCommunication) return;
