@@ -71,7 +71,16 @@ public class AudioMod implements IXposedHookZygoteInit {
             }
         }
 
-        final Class<?> audioServiceClass = XposedHelpers.findClass(compatibilityModeLG ? "android.media.AudioServiceEx" : "android.media.AudioService", null);
+        String audioServiceClassName;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            audioServiceClassName = "com.android.server.audio.AudioService";
+        } else if (compatibilityModeLG) {
+            audioServiceClassName = "android.media.AudioServiceEx";
+        } else {
+            audioServiceClassName = "android.media.AudioService";
+        }
+
+        final Class<?> audioServiceClass = XposedHelpers.findClass(audioServiceClassName, null);
         final Class<?> audioSystemClass = XposedHelpers.findClass("android.media.AudioSystem", null);
         final String maxStreamVolumeField = (compatibilityModeLG ? "MAX_STREAM_VOLUME_Ex" : "MAX_STREAM_VOLUME");
 
