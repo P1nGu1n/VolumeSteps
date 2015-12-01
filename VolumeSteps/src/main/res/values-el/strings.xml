@@ -1,6 +1,4 @@
 <resources>
-    <string name="xposed_description">Ελέγξτε την ένταση με μεγαλύτερη ακρίβεια</string>
-
     <string name="require_android_Version">Χρειάζεται %1$s ή περισσότερο</string>
 
     <!-- Volume steps dialog -->

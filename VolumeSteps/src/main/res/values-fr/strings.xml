@@ -1,6 +1,4 @@
 <resources>
-    <string name="xposed_description">Contrôle plus précis de votre volume</string>
-
     <string name="require_android_Version">Nécessite %1$s ou plus</string>
 
     <!-- Volume steps dialog -->

@@ -1,6 +1,4 @@
 <resources>
-    <string name="xposed_description">Управляйте громкостью точнее</string>
-
     <string name="require_android_Version">Требуется %1$s или выше</string>
 
     <!-- Volume steps dialog -->

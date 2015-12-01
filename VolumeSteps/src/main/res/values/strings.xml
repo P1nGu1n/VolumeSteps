@@ -3,7 +3,7 @@
     tools:ignore="MissingTranslation">
 
     <string name="app_name" translatable="false">VolumeSteps+</string>
-    <string name="xposed_description">Control your volume more precisely</string>
+    <string name="xposed_description" translatable="false">Control your volume more precisely</string>
 
     <string name="require_android_Version">Requires %1$s or higher</string>
 
