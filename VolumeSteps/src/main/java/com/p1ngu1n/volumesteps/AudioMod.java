@@ -26,11 +26,13 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.TreeMap;
 
+import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.IXposedHookZygoteInit;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
+import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 /**
  * Changes the number of volume steps and disables the safe headset volume warning.
@@ -40,7 +42,7 @@ import de.robv.android.xposed.XposedHelpers;
  * Source code of AudioService in which the max volumes are replaced:   https://github.com/android/platform_frameworks_base/blob/master/media/java/android/media/AudioService.java
  * Source code of the config file which values are replaced:            https://github.com/android/platform_frameworks_base/blob/master/core/res/res/values/config.xml
  */
-public class AudioMod implements IXposedHookZygoteInit {
+public class AudioMod implements IXposedHookZygoteInit, IXposedHookLoadPackage {
     private static final String LOG_TAG = "VolumeSteps+: ";
 
     private static final int STREAM_ALARM_DEFAULT = 7;
@@ -50,9 +52,23 @@ public class AudioMod implements IXposedHookZygoteInit {
     private static final int STREAM_SYSTEM_DEFAULT = 7;
     private static final int STREAM_VOICECALL_DEFAULT = 5;
 
-
     @Override
     public void initZygote(StartupParam startupParam) throws Throwable {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            initHooks();
+        }
+    }
+
+    @Override
+    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) throws Throwable {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
+                loadPackageParam.packageName.equals("android") &&
+                loadPackageParam.processName.equals("android")) {
+            initHooks();
+        }
+    }
+
+    private void initHooks() {
         // Load the user's preferences
         final XSharedPreferences prefs = new XSharedPreferences(BuildConfig.APPLICATION_ID);
         final boolean debugging = prefs.getBoolean("pref_debug", false);
