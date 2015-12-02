@@ -55,7 +55,7 @@ public class AudioMod implements IXposedHookZygoteInit, IXposedHookLoadPackage {
     @Override
     public void initZygote(StartupParam startupParam) throws Throwable {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            initHooks();
+            initHooks(null);
         }
     }
 
@@ -64,11 +64,11 @@ public class AudioMod implements IXposedHookZygoteInit, IXposedHookLoadPackage {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
                 loadPackageParam.packageName.equals("android") &&
                 loadPackageParam.processName.equals("android")) {
-            initHooks();
+            initHooks(loadPackageParam.classLoader);
         }
     }
 
-    private void initHooks() {
+    private void initHooks(ClassLoader classLoader) {
         // Load the user's preferences
         final XSharedPreferences prefs = new XSharedPreferences(BuildConfig.APPLICATION_ID);
         final boolean debugging = prefs.getBoolean("pref_debug", false);
@@ -96,8 +96,8 @@ public class AudioMod implements IXposedHookZygoteInit, IXposedHookLoadPackage {
             audioServiceClassName = "android.media.AudioService";
         }
 
-        final Class<?> audioServiceClass = XposedHelpers.findClass(audioServiceClassName, null);
-        final Class<?> audioSystemClass = XposedHelpers.findClass("android.media.AudioSystem", null);
+        final Class<?> audioServiceClass = XposedHelpers.findClass(audioServiceClassName, classLoader);
+        final Class<?> audioSystemClass = XposedHelpers.findClass("android.media.AudioSystem", classLoader);
         final String maxStreamVolumeField = (compatibilityModeLG ? "MAX_STREAM_VOLUME_Ex" : "MAX_STREAM_VOLUME");
 
         // Hook createAudioSystemThread, this method is called very early in the constructor of AudioService
