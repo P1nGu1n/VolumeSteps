@@ -39,7 +39,8 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
  * This class contains the code to be executed by Xposed.
  *
  * XDA-thread used as inspiration for changing the maximum volume:      http://forum.xda-developers.com/showthread.php?t=1411317
- * Source code of AudioService in which the max volumes are replaced:   https://github.com/android/platform_frameworks_base/blob/master/media/java/android/media/AudioService.java
+ * Source code of AudioService in which the max volumes are replaced:   https://github.com/android/platform_frameworks_base/blob/master/media/java/android/media/AudioService.java (< Marshmallow)
+ *                                                                      https://github.com/android/platform_frameworks_base/blob/master/services/core/java/com/android/server/audio/AudioService.java (>= Marshmallow)
  * Source code of the config file which values are replaced:            https://github.com/android/platform_frameworks_base/blob/master/core/res/res/values/config.xml
  */
 public class AudioMod implements IXposedHookZygoteInit, IXposedHookLoadPackage {
