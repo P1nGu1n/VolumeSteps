@@ -113,7 +113,7 @@ public class AudioMod implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                     maxStreamVolume = (int[]) XposedHelpers.getObjectField(param.thisObject, maxStreamVolumeField);
                 }
 
-                if (debugging) XposedBridge.log(LOG_TAG + "MAX_STREAM_VOLUME before: " + Arrays.toString(maxStreamVolume));
+                XposedBridge.log(LOG_TAG + "MAX_STREAM_VOLUME before: " + Arrays.toString(maxStreamVolume));
 
                 // Get the max volumes and set them at the index of the right stream
                 maxStreamVolume[AudioManager.STREAM_ALARM] = prefs.getInt("pref_stream_alarm", STREAM_ALARM_DEFAULT);
@@ -123,7 +123,7 @@ public class AudioMod implements IXposedHookZygoteInit, IXposedHookLoadPackage {
                 maxStreamVolume[AudioManager.STREAM_SYSTEM] = prefs.getInt("pref_stream_system", STREAM_SYSTEM_DEFAULT);
                 maxStreamVolume[AudioManager.STREAM_VOICE_CALL] = prefs.getInt("pref_stream_voicecall", STREAM_VOICECALL_DEFAULT);
 
-                if (debugging) XposedBridge.log(LOG_TAG + "MAX_STREAM_VOLUME after: " + Arrays.toString(maxStreamVolume));
+                XposedBridge.log(LOG_TAG + "MAX_STREAM_VOLUME after: " + Arrays.toString(maxStreamVolume));
             }
         });
 
@@ -134,20 +134,20 @@ public class AudioMod implements IXposedHookZygoteInit, IXposedHookLoadPackage {
         if (saveHeadsetVolumeDisabled) {
             // Disable the safe headset volume warning
             XResources.setSystemWideReplacement("android", "bool", "config_safe_media_volume_enabled", false);
-            if (debugging) XposedBridge.log(LOG_TAG + "Safe Headset Volume is disabled");
+            XposedBridge.log(LOG_TAG + "Safe Headset Volume is disabled");
         } else {
             // Calculate the new headset volume warning to comply with the new maximum music volume
             int maxMusicSteps = prefs.getInt("pref_stream_music", 15);
             int safeHeadsetVolume = (int) Math.round(maxMusicSteps * (2.0 / 3.0));
 
             XResources.setSystemWideReplacement("android", "integer", "config_safe_media_volume_index", safeHeadsetVolume);
-            if (debugging) XposedBridge.log(LOG_TAG + "Safe Headset Volume set to " + safeHeadsetVolume);
+            XposedBridge.log(LOG_TAG + "Safe Headset Volume set to " + safeHeadsetVolume);
         }
 
 
         // Whether the volume keys control the music stream or the ringer volume
         boolean volumeKeysControlMusic = prefs.getBoolean("pref_volume_keys_control_music", false);
-        if (debugging) XposedBridge.log(LOG_TAG + "Volume keys control " + (volumeKeysControlMusic ? "music" : "ringer"));
+        XposedBridge.log(LOG_TAG + "Volume keys control " + (volumeKeysControlMusic ? "music" : "ringer"));
 
         if (volumeKeysControlMusic) {
             XposedHelpers.findAndHookMethod(audioServiceClass, "getActiveStreamType", int.class, new XC_MethodHook() {
