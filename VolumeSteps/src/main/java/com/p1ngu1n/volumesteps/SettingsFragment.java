@@ -34,6 +34,8 @@ import android.preference.PreferenceFragment;
 import android.view.View;
 import android.widget.CheckBox;
 
+import java.io.File;
+
 /**
  * Fragment container the preferences.
  */
@@ -115,5 +117,17 @@ public class SettingsFragment extends PreferenceFragment {
             }
         });
         return builder.create();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        // Set preferences file permissions to be world readable
+        File sharedPrefsDir = new File(getActivity().getApplicationInfo().dataDir, "shared_prefs");
+        File sharedPrefsFile = new File(sharedPrefsDir, getPreferenceManager().getSharedPreferencesName() + ".xml");
+        if (sharedPrefsFile.exists()) {
+            sharedPrefsFile.setReadable(true, false);
+        }
     }
 }
